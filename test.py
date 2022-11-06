@@ -8,16 +8,9 @@ output_path = 'count.txt'
 beam_options = PipelineOptions([
    "--runner=PortableRunner",
     "--job_endpoint=localhost:8099",
-    "--environment_type=LOOPBACK",
+    "--environment_type=EXTERNAL",
+    "--environment_config=localhost:50000"
 ])
-with beam.Pipeline(options=beam_options) as p:
-    (
-        p
-        | beam.Create(range(100))
-        | beam.Map(lambda x : 'genap' if x%2==0 else 'ganjil')
-        | beam.combiners.Count.PerElement()
-        | beam.Map(print)
-    )
 
 with beam.Pipeline(options=beam_options) as p:
     (
